@@ -1,1 +1,23 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ecommerce_pg_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
+  adminer:
+    image: adminer
+    container_name: ecommerce_adminer
+    ports:
+      - "3333:8080"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
