@@ -24,7 +24,7 @@ class Product(Base):
     price = Column(Numeric(10, 2), nullable=False)
     category = Column(String, nullable=False)
 
-    # # Relacion logica
+    # Relacion logica
     orders = relationship("Order", back_populates="product")
 
 class Order(Base):
