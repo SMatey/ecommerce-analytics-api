@@ -16,7 +16,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     # 2. Guardamos en la base de datos
     db.add(db_user)
     db.commit()
-    db.refresh(db_user) # optenemos el ID y el created_at
+    db.refresh(db_user) # obtenemos el ID y el created_at
 
     return db_user
 
