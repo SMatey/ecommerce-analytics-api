@@ -5,6 +5,7 @@ from datetime import datetime
 
 # Creamos las tablas que existiran dentro de la base de datos
 
+# --- TABLA DE USUARIOS ---
 class User(Base):
     __tablename__ = "users"
 
@@ -16,6 +17,7 @@ class User(Base):
     # Relacion logica
     orders = relationship("Order", back_populates="user")
 
+# --- TABLA DE PRODUCTOS ---
 class Product(Base):
     __tablename__ = "products"
 
@@ -27,6 +29,7 @@ class Product(Base):
     # Relacion logica
     orders = relationship("Order", back_populates="product")
 
+# --- TABLA DE ORDENES ---
 class Order(Base):
     __tablename__ = "orders"
 
