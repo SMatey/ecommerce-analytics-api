@@ -48,3 +48,11 @@ class OrderResponse(BaseModel):
     order_date:  datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+# --- ESQUEMAS PARA INGRESOS POR CATEGORIA ---
+
+class CategoryRevenueResponse(BaseModel):
+    category: str
+    total_revenue: float
+
+    model_config = ConfigDict(from_attributes=True)
