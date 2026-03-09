@@ -31,3 +31,20 @@ class ProductResponse(BaseModel):
     category: str
 
     model_config = ConfigDict(from_attributes=True) 
+
+# --- ESQUEMAS PARA ORDENES ---
+
+class OrderCreate(BaseModel):
+    user_id: int
+    product_id: int
+    quantity: int
+
+class OrderResponse(BaseModel):
+    id: int
+    user_id: int
+    product_id: int
+    quantity:  int
+    total_amount: float
+    order_date:  datetime
+
+    model_config = ConfigDict(from_attributes=True)
