@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from core.database import get_db
 from models.domain import User, Product, Order
 from schemas.pydantic_dtos import (UserCreate, UserResponse, ProductCreate, 
-                                   ProductResponse, OrderCreate, OrderResponse, CategoryRevenueResponse)
+                                   ProductResponse, OrderCreate, OrderResponse, 
+                                   CategoryRevenueResponse, TopProductResponse)
 
 # creamos el enrutador
 router = APIRouter()
@@ -75,6 +76,21 @@ def get_category_revenue(db: Session = Depends(get_db)):
     )\
     .join(Order, Product.id == Order.product_id)\
     .group_by(Product.category)\
+    .all()
+
+    return result
+
+# --- ENDPOINT DE TOP PRODUCTOS ---
+@router.get("/analytics/top-products", response_model=list[TopProductResponse])
+def get_top_products(db: Session = Depends(get_db)):
+    result = db.query(
+        Product.name.label("product_name"),
+        func.sum(Order.quantity).label("total_quantity_sold")
+    )\
+    .join(Order, Product.id == Order.product_id)\
+    .group_by(Product.name)\
+    .order_by(desc("total_quantity_sold"))\
+    .limit(5)\
     .all()
 
     return result

@@ -56,3 +56,11 @@ class CategoryRevenueResponse(BaseModel):
     total_revenue: float
 
     model_config = ConfigDict(from_attributes=True)
+
+# --- ESQUEMAS PARA TOP PRODUCTOS ---
+
+class TopProductResponse(BaseModel):
+    product_name: str
+    total_quantity_sold: int
+
+    model_config = ConfigDict(from_attributes=True)
