@@ -10,3 +10,4 @@ def create_order_on_db(db: Session, user_id: int, product_id: int, quantity: int
     db.refresh(new_order)
 
     return new_order
+

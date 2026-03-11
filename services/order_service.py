@@ -20,6 +20,7 @@ def create_new_order(db: Session, order_data: OrderCreate):
 
     # Llamamos el repositorio para guarddar en la DB
     return order_repository.create_order_on_db(
+        db=db,
         user_id = order_data.user_id,
         product_id = order_data.product_id,
         quantity = order_data.quantity,
