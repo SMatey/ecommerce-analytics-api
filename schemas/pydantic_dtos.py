@@ -2,7 +2,6 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 # --- ESQUEMAS PARA USUARIOS ---
-
 # Lo que el cliente envia
 class UserCreate(BaseModel):
     email: str
@@ -18,7 +17,6 @@ class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 # --- ESQUEMAS PARA PRODUCTOS ---
-
 class ProductCreate(BaseModel):
     name: str
     price: float
@@ -33,7 +31,6 @@ class ProductResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True) 
 
 # --- ESQUEMAS PARA ORDENES ---
-
 class OrderCreate(BaseModel):
     user_id: int
     product_id: int
@@ -49,18 +46,24 @@ class OrderResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-# --- ESQUEMAS PARA INGRESOS POR CATEGORIA ---
-
+# --- ESQUEMA PARA INGRESOS POR CATEGORIA ---
 class CategoryRevenueResponse(BaseModel):
     category: str
     total_revenue: float
 
     model_config = ConfigDict(from_attributes=True)
 
-# --- ESQUEMAS PARA TOP PRODUCTOS ---
-
+# --- ESQUEMA PARA TOP PRODUCTOS ---
 class TopProductResponse(BaseModel):
     product_name: str
     total_quantity_sold: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+# --- ESQUEMA PARA SALES TREND ---
+class SalesTrendResponse(BaseModel):
+    order_id: int
+    total_amount: float
+    moving_average: float
 
     model_config = ConfigDict(from_attributes=True)
