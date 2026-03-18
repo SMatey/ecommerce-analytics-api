@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func, desc
+from sqlalchemy import func, desc, case
 from models.domain import Order, Product
 
 # --- INGRESOS POR CATEGORIA ---
@@ -43,6 +43,31 @@ def get_sales_trend_from_db(db: Session):
         Order.total_amount.label("total_amount"),
         moving_average.label("moving_average")
     )\
+    .all()
+
+    return result
+
+# --- RETENCION DE USUARIOS ---
+def get_cohort_retention_users_from_db(db: Session):
+    # Subconsulta para obtener el primer mes de compra
+    first_purchase_cte = db.query(
+        Order.user_id,
+        func.date_trunc('month', func.min(Order.order_date)).label("cohort_month")
+    ).group_by(Order.user_id).cte("first_purchase_cte")
+
+    result = db.query(
+        first_purchase_cte.c.cohort_month.label("cohort_month"),
+        func.count(func.distinct(first_purchase_cte.c.user_id)).label("total_users"),
+        func.count(func.distinct(
+            case(
+                (Order.order_date > first_purchase_cte.c.cohort_month, Order.user_id),
+                else_=None
+            )
+        )).label("retained_users")
+    )\
+    .join(Order, Order.user_id == first_purchase_cte.c.user_id)\
+    .group_by(first_purchase_cte.c.cohort_month)\
+    .order_by(first_purchase_cte.c.cohort_month)\
     .all()
 
     return result

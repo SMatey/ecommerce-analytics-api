@@ -67,3 +67,9 @@ class SalesTrendResponse(BaseModel):
     moving_average: float
 
     model_config = ConfigDict(from_attributes=True)
+
+# --- ESQUEMA RETENCION DE USUARIOS ---
+class CohortRetentionResponse(BaseModel):
+    cohort_month: datetime
+    total_users: int
+    retained_users: int

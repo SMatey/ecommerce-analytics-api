@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from core.database import get_db
 from schemas.pydantic_dtos import (UserCreate, UserResponse, ProductCreate, 
                                    ProductResponse, OrderCreate, OrderResponse, 
-                                   CategoryRevenueResponse, TopProductResponse, SalesTrendResponse)
+                                   CategoryRevenueResponse, TopProductResponse, SalesTrendResponse,
+                                   CohortRetentionResponse)
 from services import (user_service, product_service, order_service, analytics_service)
 
 # creamos el enrutador
@@ -41,3 +42,8 @@ def get_top_products(db: Session = Depends(get_db)):
 @router.get("/analytics/sales-trend", response_model=list[SalesTrendResponse])
 def get_sales_trend(db: Session = Depends(get_db)):
     return analytics_service.get_sales_trend(db)
+
+# --- ENDPOINT RETENCION DE USUARIOS ---
+@router.get("/analytics/cohort-retention", response_model=list[CohortRetentionResponse])
+def get_cohort_retention_users(db: Session = Depends(get_db)):
+    return analytics_service.get_cohort_retention_users(db)
